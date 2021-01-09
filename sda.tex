@@ -86,8 +86,20 @@ and (2) the discrepancy between the domains.
 Given identical labels $Y_s = Y_t$ and the same feature space $X_s = X_t$, Domain Adaptation (DA) deals with minimizing the discrepancy between two domains.
 The domain discrepancy can be in terms of the differences in the marginal distributions $P_s(x_s) \neq P_t(x_t)$ or the conditional distributions $P(y_s | x_s) \neq P(y_t | x_t)$.
 
+Given very few labeled examples in the target domain (or no labeled exmaples at all), it is hard to estimate $P_t(y_t|x_t)$. 
+Most DA approaches assume the domains to be correlated to some extent with $P(y_s | x_s) \approx P(y_t | x_t)$ and only focus on minimizing the marginal distribution differences.
+This setting is known with many names in the adaptation literature, namely, Domain Shift, Dataset Shift, and Covariate Shift.
+However, when the conditional distribution differences are so significant $P(y_s|x_s) \neq P(y_t | x_t)$, then this setting is more commonly known as Sample Selection Bias.
 
+\section{A Condensed Review of DA Literature}
+The Support Vector Machine (SVM) based frameworks are semi-supervised DA approaches that modify the SVM optimization framework to use labeled examples from both the domains simultaneously for adapting to the target domain data.
+Yang et al. proposed Adaptive SVM where the SVM source model is regularized for the target examples. Domain Adaptive Support Vector Machine and Projective Model Transfer SVM are very similar adaptation approaches where the source SVM decision boundary is iteratively adapted to better classify the target samples.
+Wu et al. proposed another SVM-based framework to determine relevant support vectors from the source domain for the target task.
+Hoffman et al. introduced Maximum Margin Domain Transfer where a linear transformation that maps the target features to the source features is learned to account for the distribution mismatch.
 
+The Subspace-based adaptation methods are Unsupervised DA methods that align the source and target features.
+The Subpsace Alignment method has a closed-form solution that aligns the Eigen feature spaces obtained through PCA.
+Similarly, manifold based DA methods minimize the distribution differences in a low-dimensional manifold. 
 \bibliography{refs}
 \bibliographystyle{plain}
 

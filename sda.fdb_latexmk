@@ -1,14 +1,14 @@
 # Fdb version 3
-["bibtex sda"] 1610197455 "sda.aux" "sda.bbl" "sda" 1610197457
+["bibtex sda"] 1610198087 "sda.aux" "sda.bbl" "sda" 1610198087
   "/usr/local/texlive/2020basic/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   "refs.bib" 0 -1 0 ""
-  "sda.aux" 1610197456 921 848d69f830eb01f2ce07661afbebc8b8 "pdflatex"
+  "sda.aux" 1610198048 1054 cae1180926b2afd2046825d0edb00416 "pdflatex"
   (generated)
-  "sda.bbl"
   "sda.blg"
-["pdflatex"] 1610197455 "/Users/seri/articles/sda.tex" "/Users/seri/articles/sda.pdf" "sda" 1610197457
-  "/Users/seri/articles/sda.aux" 1610197456 921 848d69f830eb01f2ce07661afbebc8b8 ""
-  "/Users/seri/articles/sda.tex" 1610197436 4329 c908a9b55e3146af07cc32b7b630e992 ""
+  "sda.bbl"
+["pdflatex"] 1610198047 "/Users/seri/articles/sda.tex" "/Users/seri/articles/sda.pdf" "sda" 1610198087
+  "/Users/seri/articles/sda.aux" 1610198048 1054 cae1180926b2afd2046825d0edb00416 ""
+  "/Users/seri/articles/sda.tex" 1610198085 6175 be2a61895505144df0554cf36f44c5ee ""
   "/usr/local/texlive/2020basic/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2020basic/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2020basic/texmf-dist/fonts/tfm/adobe/palatino/pplb8r.tfm" 1136768653 2532 9ad73cf4dd2173a847f2a5f5608e0b9a ""
@@ -111,14 +111,14 @@
   "/usr/local/texlive/2020basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1608931265 5049305 f8dc8735a2c6692979a1abb0396a617f ""
   "/usr/local/texlive/2020basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1608931390 2553459 8892695733bea2b75cd7fbfc5a9d1498 ""
   "/usr/local/texlive/2020basic/texmf.cnf" 1586277716 628 4346f9a816ba8e5dc36d93d5100b369e ""
-  "sda.aux" 1610197456 921 848d69f830eb01f2ce07661afbebc8b8 "pdflatex"
+  "sda.aux" 1610198048 1054 cae1180926b2afd2046825d0edb00416 "pdflatex"
   "sda.bbl" 0 -1 0 "bibtex sda"
-  "sda.out" 1610197456 47 a02d95553e30b97ff125b1aa17cf9044 "pdflatex"
-  "sda.tex" 1610197436 4329 c908a9b55e3146af07cc32b7b630e992 ""
+  "sda.out" 1610198048 117 978d276956dafccf7f7a7a8d3000cd73 "pdflatex"
+  "sda.tex" 1610198085 6175 be2a61895505144df0554cf36f44c5ee ""
   (generated)
-  "sda.aux"
   "sda.log"
   "sda.out"
-  "sda.pdf"
   "/Users/seri/articles/sda.pdf"
   "/Users/seri/articles/sda.log"
+  "sda.aux"
+  "sda.pdf"
