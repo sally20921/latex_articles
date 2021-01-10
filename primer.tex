@@ -1,8 +1,8 @@
 \documentclass{tufte-handout}
 
-\title{An Example of the Usage of the Tufte-Handout Style\thanks{Inspired by Edward~R. Tufte!}}
+\title{A Primer on Domain Adaptation}
 
-\author[The Tufte-LaTeX Developers]{The Tufte-\LaTeX\ Developers}
+\author[Seri Lee]{Seri Lee}
 
 %\date{28 March 2010} % without \date command, current date is supplied
 
@@ -41,257 +41,66 @@
 
 \begin{abstract}
 \noindent
-This document describes the Tufte handout \LaTeX\ document style.
-It also provides examples and comments on the style's use.
-Only a brief overview is presented here;
-for a complete reference, see the sample book.
+Standard supervised machine learning assumes that the distribution of the source samples used to train an algorithm is the same as teh one of the target samples on which it is supposed to make predictions.
+However, this is hardly ever the case in practice. The myriad of methods available and the unfortunate lack of a clear and universally accepted terminology can make the topic of domain adaptation daunting for the newcomer.
+This review aims at a coherent presentation of four important special cases: (1) prior shift, (2) covariate shift, (3) concept shift, and (4) subspace mapping. 
 \end{abstract}
 
 %\printclassoptions
 
-The Tufte-\LaTeX\ document classes define a style similar to the
-style Edward Tufte uses in his books and handouts.  Tufte's style is known
-for its extensive use of sidenotes, tight integration of graphics with
-text, and well-set typography.  This document aims to be at once a
-demonstration of the features of the Tufte-\LaTeX\ document classes
-and a style guide to their use.
+\section{Introduction}
+Classical theory of ML assumes that the new observations from the test set are drawn from the same population as those from the training set.
+This however is an ideal situation rarely met in practice. The training set is then said to be biased with respect to the test set.
+Depending on the situation, this bias can either be known or unknown. Domain adaptation (DA) is a collection of methods that aims at compensating for the statistical asymmetry between the train set and the test set.
+There are several reasons that make it difficult for a newcomer to build a coherent overview of domain adaptation:
+\begin{itemize}
+  \item Research papers on DA use a specialized vocabulary and concepts that will not apply elsewhere.
+  \item There is no universal terminology agreement for referring to different types of domain adaptation.
+  \item DA is sometimes confused with transfer learning (TL). 
+  While TL deals with transferring knowledge gained on one task to use it on another, DA deals with one single task for which the training and test observations have different statistical properties.
+\end{itemize}
+In this review, my aim is to try to fill in the above gaps. My commitment is to describe 4 important practical cases of DA. 
 
-\section{Page Layout}\label{sec:page-layout}
-\subsection{Headings}\label{sec:headings}
-This style provides \textsc{a}- and \textsc{b}-heads (that is,
-\Verb|\section| and \Verb|\subsection|), demonstrated above.
+The four special cases of DA I consider are described below. Henceforth, the source domain will refer to the population from which traning observations are drawn while the target domain will refer to the population from which test observations are drawn.
+\begin{enumerate}
+  \item \textbf{Prior shift} refers to a situation in which the label distributions are different in the source and target domains. The class conditional distributions of the features given the label are however assumed to be identical in both domains. 
+  \item \textbf{Covariate shift} refers to a situation in which the distributions of the features are different but known in the source and target domains. The conditional dependence of the labels on features are however assumed to be the same in both domains.
+  \item \textbf{Concept shift} refers to the case where the dependence of the label upon the features differs between the target and the source domains, often depending on time. The distribution of the features are nevertheless assumed to be the same in both domains.
+  \item \textbf{Subspace mapping} describes a situation where observations are distributed alike as physical objects in the source and target domains but where the features are different and related by an unknown change of coordinates. 
+\end{enumerate}
 
-The Tufte-\LaTeX\ classes will emit an error if you try to use
-\linebreak\Verb|\subsubsection| and smaller headings.
+I examine these 4 instances of DA in turn, using the two main theoretical frameworks of Machine Learning (ML), namely the PAC learning framework of statistical learning and the maximum likelihood principle. 
+The PAC theory formulates the aim of ML as making good predictions directly from samples of a probability distribution from which nothing is assumed.
+The maximum likelihood principle on the other hand assumes that samples are generated from some parametrized probability distribution whose parameters are to be optimized to make the observed samples as likely as possible.
 
-% let's start a new thought -- a new section
-\newthought{In his later books},\cite{Tufte2006} Tufte
-starts each section with a bit of vertical space, a non-indented paragraph,
-and sets the first few words of the sentence in \textsc{small caps}.  To
-accomplish this using this style, use the \Verb|\newthought| command:  
-\begin{docspec}
-  \doccmd{newthought\{In his later books\}, Tufte starts\ldots}
-\end{docspec}
+\section{Statistical Learning Recap}
+\subsection{PAC learning framework}
+The classical mathematical framework for defining statistical learning is called \textit{Probably Approximately Correct} (PAC) learning. 
 
-\subsection{Sidenotes}\label{sec:sidenotes}
-One of the most prominent and distinctive features of this style is the
-extensive use of sidenotes.  There is a wide margin to provide ample room
-for sidenotes and small figures.  Any \Verb|\footnote|s will automatically
-be converted to sidenotes.\footnote{This is a sidenote that was entered
-using the \texttt{\textbackslash footnote} command.}  If you'd like to place ancillary
-information in the margin without the sidenote mark (the superscript
-number), you can use the \Verb|\marginnote| command.\marginnote{This is a
-margin note.  Notice that there isn't a number preceding the note, and
-there is no number in the main text where this note was written.}
+We assume that the observations are defined as pairs $(x,y)$ of features $x$ in some feature space $\mathcal{X} \subset \mathbb{R}^p$ and of labels $y$ in a label space $\mathcal{Y}$ which could be either a part of $\mathbb{R}$ for a regression or a set of labels for a classification.
+The relationship between $x$ and $y$ is described by an unknown joint probability distribution $p(x,y)$. 
 
-The specification of the \Verb|\sidenote| command is:
-\begin{docspec}
-  \doccmd{sidenote[\docopt{number}][\docopt{offset}]\{\docarg{Sidenote text.}\}}
-\end{docspec}
+Suppose that information is given to us only in the form of a sample $S=\{(x_1,y_1), \ldots, (x_m,y_m)\}$ of observations drawn from this unknown distribution $p(x,y)$.
+Our aims is to use this information $S$ to find a ``good'' approximation of the dependence of $y$ on $x$ as function $h: \mathcal{X} \to \mathcal{Y}$. 
 
-Both the \docopt{number} and \docopt{offset} arguments are optional.  If you
-provide a \docopt{number} argument, then that number will be used as the
-sidenote number.  It will change of the number of the current sidenote only and
-will not affect the numbering sequence of subsequent sidenotes.
+We select his function from a collection of $\mathcal{H}$, the hypothesis class. To assess the quality of a predictor $h$ we assume moreover that we are given a loss function $l: \mathcal{y} \times \mathcal{Y} \to \mathbb{R}$ which measures the discrepancy $l(y, \hat{y})$ between an observed value $y$ and a prediction $\hat{y} = h(x)$.
+Common choices are the $l_{0-1}$ loss which counts the number of points where $y \neq y'$ for a binary classifier and $l_{LS} := \left\lvert y-y'\right\rvert^2$ for least square regression.
 
-Sometimes a sidenote may run over the top of other text or graphics in the
-margin space.  If this happens, you can adjust the vertical position of the
-sidenote by providing a dimension in the \docopt{offset} argument.  Some
-examples of valid dimensions are:
-\begin{docspec}
-  \ttfamily 1.0in \qquad 2.54cm \qquad 254mm \qquad 6\Verb|\baselineskip|
-\end{docspec}
-If the dimension is positive it will push the sidenote down the page; if the
-dimension is negative, it will move the sidenote up the page.
+The true risk $R[h]$ associated with a predictor $h \in \mathcal{H}$ is then defined as the expectation of this loss $l$ when averaged over the unknown distribution $p$:
+\begin{equation}
+  R[h] := \mathbb{E}_{(x,y) \sim p}[l(y, h(x))]
+\end{equation}
+This is the quantity that we want to minimize over predictors $h \in \mathcal{H}$ using some machine learning algorithm. We are thus led to the following definition:
 
-While both the \docopt{number} and \docopt{offset} arguments are optional, they
-must be provided in order.  To adjust the vertical position of the sidenote
-while leaving the sidenote number alone, use the following syntax:
-\begin{docspec}
-  \doccmd{sidenote[][\docopt{offset}]\{\docarg{Sidenote text.}\}}
-\end{docspec}
-The empty brackets tell the \Verb|\sidenote| command to use the default
-sidenote number.
+A hypothesis class $\mathcal{H}$ is \textit{learnable} if the following is true: there exist an algorithm $A$ which, for any given precision $\epsilon > 0$ and $\delta >0$, takes a sample $S$ of size $m$, whose observations are sampled from $p$, and returns a predictor $h_S = A(S) \in \mathcal{H}$ such that 
+\begin{equation}
+  R[h_S] \leq \min_{h \in \mathcal{H}}R[h]+\epsilon
+\end{equation}
+with a confidence $1-\delta$ provided $m := \left\lvert S \right\rvert$ is large enough.
 
-If you \emph{only} want to change the sidenote number, however, you may
-completely omit the \docopt{offset} argument:
-\begin{docspec}
-  \doccmd{sidenote[\docopt{number}]\{\docarg{Sidenote text.}\}}
-\end{docspec}
+In other words, the algorithm $A$ should manage to pick a predictor whose risk is $\epsilon$-close to the optimal $h$ that can be achieved within the class $\mathcal{H}$.
+If the actual relationship beween $x$ and $y=h(x)$ is deterministic and if moreover this $h$ belongs to $\mathcal{H}$, then the right hand side of (2) simply reduces to $\epsilon$.
 
-The \Verb|\marginnote| command has a similar \docarg{offset} argument:
-\begin{docspec}
-  \doccmd{marginnote[\docopt{offset}]\{\docarg{Margin note text.}\}}
-\end{docspec}
-
-\subsection{References}
-References are placed alongside their citations as sidenotes,
-as well.  This can be accomplished using the normal \Verb|\cite|
-command.\sidenote{The first paragraph of this document includes a citation.}
-
-The complete list of references may also be printed automatically by using
-the \Verb|\bibliography| command.  (See the end of this document for an
-example.)  If you do not want to print a bibliography at the end of your
-document, use the \Verb|\nobibliography| command in its place.  
-
-To enter multiple citations at one location,\cite{Tufte2006,Tufte1990} you can
-provide a list of keys separated by commas and the same optional vertical
-offset argument: \Verb|\cite{Tufte2006,Tufte1990}|.  
-\begin{docspec}
-  \doccmd{cite[\docopt{offset}]\{\docarg{bibkey1,bibkey2,\ldots}\}}
-\end{docspec}
-
-\section{Figures and Tables}\label{sec:figures-and-tables}
-Images and graphics play an integral role in Tufte's work.
-In addition to the standard \docenv{figure} and \docenv{tabular} environments,
-this style provides special figure and table environments for full-width
-floats.
-
-Full page--width figures and tables may be placed in \docenv{figure*} or
-\docenv{table*} environments.  To place figures or tables in the margin,
-use the \docenv{marginfigure} or \docenv{margintable} environments as follows
-(see figure~\ref{fig:marginfig}):
-
-\begin{marginfigure}%
-  \includegraphics[width=\linewidth]{sample}
-  \caption{This is a margin figure.  The helix is defined by 
-    $x = \cos(2\pi z)$, $y = \sin(2\pi z)$, and $z = [0, 2.7]$.  The figure was
-    drawn using Asymptote (\url{http://asymptote.sf.net/}).}
-  \label{fig:marginfig}
-\end{marginfigure}
-\begin{Verbatim}
-\begin{marginfigure}
-  \includegraphics{helix}
-  \caption{This is a margin figure.}
-\end{marginfigure}
-\end{Verbatim}
-
-The \docenv{marginfigure} and \docenv{margintable} environments accept an optional parameter \docopt{offset} that adjusts the vertical position of the figure or table.  See the ``\nameref{sec:sidenotes}'' section above for examples.  The specifications are:
-\begin{docspec}
-  \doccmd{begin\{marginfigure\}[\docopt{offset}]}\\
-  \qquad\ldots\\
-  \doccmd{end\{marginfigure\}}\\
-  \mbox{}\\
-  \doccmd{begin\{margintable\}[\docopt{offset}]}\\
-  \qquad\ldots\\
-  \doccmd{end\{margintable\}}\\
-\end{docspec}
-
-Figure~\ref{fig:fullfig} is an example of the \Verb|figure*|
-environment and figure~\ref{fig:textfig} is an example of the normal
-\Verb|figure| environment.
-
-\begin{figure*}[h]
-  \includegraphics[width=\linewidth]{sample}%
-  \caption{This graph shows $y = \sin x$ from about $x = [-10, 10]$.
-  \emph{Notice that this figure takes up the full page width.}}%
-  \label{fig:fullfig}%
-\end{figure*}
-
-\begin{figure}
-  \includegraphics{sample}
-%  \checkparity This is an \pageparity\ page.%
-  \caption{Hilbert curves of various degrees $n$.
-  \emph{Notice that this figure only takes up the main textblock width.}}
-  \label{fig:textfig}
-  %\zsavepos{pos:textfig}
-  \setfloatalignment{b}
-\end{figure}
-
-Table~\ref{tab:normaltab} shows table created with the \docpkg{booktabs}
-package.  Notice the lack of vertical rules---they serve only to clutter
-the table's data.
-
-\begin{table}[ht]
-  \centering
-  \fontfamily{ppl}\selectfont
-  \begin{tabular}{ll}
-    \toprule
-    Margin & Length \\
-    \midrule
-    Paper width & \unit[8\nicefrac{1}{2}]{inches} \\
-    Paper height & \unit[11]{inches} \\
-    Textblock width & \unit[6\nicefrac{1}{2}]{inches} \\
-    Textblock/sidenote gutter & \unit[\nicefrac{3}{8}]{inches} \\
-    Sidenote width & \unit[2]{inches} \\
-    \bottomrule
-  \end{tabular}
-  \caption{Here are the dimensions of the various margins used in the Tufte-handout class.}
-  \label{tab:normaltab}
-  %\zsavepos{pos:normaltab}
-\end{table}
-
-\section{Full-width text blocks}
-
-In addition to the new float types, there is a \docenv{fullwidth}
-environment that stretches across the main text block and the sidenotes
-area.
-
-\begin{Verbatim}
-\begin{fullwidth}
-Lorem ipsum dolor sit amet...
-\end{fullwidth}
-\end{Verbatim}
-
-\begin{fullwidth}
-\small\itshape\lipsum[1]
-\end{fullwidth}
-
-\section{Typography}\label{sec:typography}
-
-\subsection{Typefaces}\label{sec:typefaces}
-If the Palatino, \textsf{Helvetica}, and \texttt{Bera Mono} typefaces are installed, this style
-will use them automatically.  Otherwise, we'll fall back on the Computer Modern
-typefaces.
-
-\subsection{Letterspacing}\label{sec:letterspacing}
-This document class includes two new commands and some improvements on
-existing commands for letterspacing.
-
-When setting strings of \allcaps{ALL CAPS} or \smallcaps{small caps}, the
-letter\-spacing---that is, the spacing between the letters---should be
-increased slightly.\cite{Bringhurst2005}  The \Verb|\allcaps| command has proper letterspacing for
-strings of \allcaps{FULL CAPITAL LETTERS}, and the \Verb|\smallcaps| command
-has letterspacing for \smallcaps{small capital letters}.  These commands
-will also automatically convert the case of the text to upper- or
-lowercase, respectively.
-
-The \Verb|\textsc| command has also been redefined to include
-letterspacing.  The case of the \Verb|\textsc| argument is left as is,
-however.  This allows one to use both uppercase and lowercase letters:
-\textsc{The Initial Letters Of The Words In This Sentence Are Capitalized.}
-
-
-
-\section{Installation}\label{sec:installation}
-To install the Tufte-\LaTeX\ classes, simply drop the
-following files into the same directory as your \texttt{.tex}
-file:
-\begin{quote}
-  \ttfamily
-  tufte-book.cls\\
-  tufte-common.def\\
-  tufte-handout.cls\\
-  tufte.bst
-\end{quote}
-
-% TODO add instructions for installing it globally
-
-
-
-\section{More Documentation}\label{sec:more-doc}
-For more documentation on the Tufte-\LaTeX{} document classes (including commands not
-mentioned in this handout), please see the sample book.
-
-\section{Support}\label{sec:support}
-
-The website for the Tufte-\LaTeX\ packages is located at
-\url{https://github.com/Tufte-LaTeX/tufte-latex}.  On our website, you'll find
-links to our \smallcaps{svn} repository, mailing lists, bug tracker, and documentation.
-
-\bibliography{sample-handout}
-\bibliographystyle{plainnat}
-
-
+\textbf{In intuitive terms}: a class $\mathcal{H}$ of functions is termed \textit{learnable} when there exists an algorithm $A$ that takes a sample $S$ as input to select a predictor $h_S = A(S)$ from $\mathcal{H}$ which has high chances (``Probably'') to have low risk $R[h]$ (``Approximately Correct''), provided the sample size $m:=\left\lvert S \right\rvert $ is large enough.
 
 \end{document}
