@@ -1,0 +1,180 @@
+
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template 
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Article by Seri $\bullet$ January 2021 $\bullet$ Vol. XXI, No. 1} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codepurple},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{magenta},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usemintedstyle{vim}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+
+
+\title{Docker Containers Tutorial} % Article title
+
+
+\author{%
+\textsc{Seri Lee}\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize Seoul National University \\ % Your institution
+\normalsize \href{mailto:sally20921@snu.ac.kr}{sally20921@snu.ac.kr} % Your email address
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+
+%\begin{abstract}
+%\noindent \blindtext % Dummy abstract text - replace \blindtext with your abstract text
+%\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+Containers are a packetized bundle of software that encapsulates everything that is required to run, including all dependencies.
+It only requires a compatible OS kernel to run autonomously.
+
+Docker is the lead actor in containers for web applications.
+The best way to describe a container is to think of a process that's surrounded by its own filesystem.
+This makes containers extremely portable, as they are detached from the underlying hardware and the platform that runs them.
+
+\section{Docker Run}
+To build a container with Docker, we need a definition of its content.
+The filesystem is created by applying layer after layer.
+
+In this section, we are going to run a ```SimCLR'' container on our system.
+To get started, run the following in the terminal:
+\begin{minted}[linenos]{shell-session}
+    docker pull zimmerrol/simclr-pt
+\end{minted}
+
+The \mintinline{shell-session}{pull} command fetches the zimmerrol/simclr-pt image from the Docker registry and saves it to our system.
+You can use the \mintinline{shell-session}{docker images} commnad to see a list of all images on your system.
+
+Let's run a Docker container based on this image.
+\begin{minted}[linenos]{shell-session}
+docker run zimmerrol/simclr-pt
+\end{minted}
+
+When you call \mintinline{shell-session}{run}. the Docker client finds the image, loads up the container and then runs a command in that container.
+We didn't provide a command, so the container booted up, ran an empty command and then exited.
+
+The \mintinline{shell-session}{docker ps} command shows you all containers you are cuurently running.
+
+Running the \mintinline{shell-session}{run} command with the \mintinline{shell-session}{-it} flag attaches us to an interative tty in the container.
+Now we can run as many commands in the container as we want.
+You can exit the container (\mintinline{shell-session}{exit} and press Enter). Since Docker creates a new container every time, everything should start working again.
+
+Running \mintinline{shell-session}{docker run} multiple times and leaving stray containers will eat up disk space.
+Hence, as a rule of thumb, clean up containers once you are done with them.
+To do that, run \mintinline{shell-session}{docker rm} command. Just copy the container IDs from \mintinline{shell-session}{docker ps -a} and paste them alongside the command.
+
+\begin{minted}[linenos]{shell-session}
+docker rm $(docker ps -a -q -f status=exited)
+\end{minted}
+
+This command deletes all containers that have a status of \mintinline{shell-session}{exited}.
+The \mintinline{shell-session}{-q} flag only returns the numeric IDs and \mintinline{shell-session}{-f} filters output based on conditions provided.
+
+\mintinline{shell-session}{--rm} flag can be passed to \mintinline{shell-session}{docker run} which automatically deletes the container once it's exited from.
+
+In later versions, the \mintinline{shell-session}{docker container prune} command can be used to achieve the same effect.
+Lastly, you can also delete images that you no longer need by running \mintinline{shell-session}{docker rmi}.
+%----------------------------------------------------------------------------------------
+
+\subsection{Terminology}
+\begin{itemize}
+    \item \textbf{Images} The blueprints of our applications which form the basis of containers.
+    \item \textbf{Containers} Created from Docker images and run the actual application. We create a container using \mintinline{shell-session}{docker run}. A list of running containers can be seen using the \mintinline{shell-session}{docker ps} command.
+    \item \textbf{Docker Daemon} The background service running on the host that manages building, running and distributing Docker containers. The daemon is the process that runs in the operating system which client talks to.
+    \item \textbf{Docker Client} The Command line tool that allows the users to interact with the daemon. 
+    \item \textbf{Docker Hub} A registry of Docker images. 
+\end{itemize}
+
+\section{Deploying with Docker}
+
+\end{document}
