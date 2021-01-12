@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+ROOT\PYGZus{}DIR\PYG{p}{=}\PYG{l+s+sr}{/path/}\PYG{k}{to}\PYG{l+s+sr}{/application/}root\PYG{l+s+sr}{/directory/}host
+JUPYTER\PYGZus{}PORT\PYG{p}{=}\PYG{l+m}{42065}
+JUPYTER\PYGZus{}TOKEN\PYG{p}{=}somepassword
+JUPYTER\PYGZus{}DIR\PYG{p}{=}\PYG{l+s+sr}{/jupyter/}notebooks/container
+TENSORBOARD\PYGZus{}PORT\PYG{p}{=}\PYG{l+m}{45175}
+TENSORBOARD\PYGZus{}DIR\PYG{p}{=}\PYG{l+s+sr}{/jupyter/}runs/container
+\end{Verbatim}

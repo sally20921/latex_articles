@@ -1,0 +1,45 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+version: \PYG{l+s+s2}{\PYGZdq{}3.8\PYGZdq{}}
+services:
+    tensorboard:
+        image: \PYG{k}{dl}\PYG{p}{\PYGZhy{}}tensorboard
+        build:
+            context: ./
+            dockerfile: tensorboard.Dockerfile
+        ports:
+            \PYG{p}{\PYGZhy{}} \PYGZdl{}\PYGZob{}TENSORBOARD\PYGZus{}PORT\PYGZcb{}:\PYGZdl{}\PYGZob{}TENSORBOARD\PYGZus{}PORT\PYGZcb{}
+        volumes:
+            \PYG{p}{\PYGZhy{}} \PYGZdl{}\PYGZob{}ROOT\PYGZus{}DIR\PYGZcb{}:/jupyter
+        command:
+            [
+\PYG{c}{                \PYGZdq{}tensorboard\PYGZdq{},}
+\PYG{c}{                \PYGZdq{}\PYGZhy{}\PYGZhy{}logdir=\PYGZdl{}\PYGZob{}TENSORBOARD\PYGZus{}DIR\PYGZcb{}\PYGZdq{},}
+\PYG{c}{                \PYGZdq{}\PYGZhy{}\PYGZhy{}port=\PYGZdl{}\PYGZob{}TENSORBOARD\PYGZus{}PORT\PYGZdq{},}
+\PYG{c}{                \PYGZdq{}\PYGZhy{}\PYGZhy{}bind\PYGZhy{}all\PYGZdq{}}
+            ]
+
+    jupyter\PYG{p}{\PYGZhy{}}server:
+        image: \PYG{k}{dl}\PYG{p}{\PYGZhy{}}jupyter
+        init: true
+        build:
+            context: ./
+            dockerfile: jupyter.Dockerfile
+        device\PYGZus{}requests:
+            \PYG{p}{\PYGZhy{}} capabilities:
+                \PYG{p}{\PYGZhy{}} \PYG{l+s+s2}{\PYGZdq{}gpu\PYGZdq{}}
+        env\PYGZus{}file:./.env
+        ports:
+            \PYG{p}{\PYGZhy{}} \PYGZdl{}\PYGZob{}JUPYTER\PYGZus{}PORT\PYGZcb{}:\PYGZdl{}\PYGZob{}JUPYTER\PYGZus{}PORT\PYGZcb{}
+        volumes:
+            \PYG{p}{\PYGZhy{}}\PYGZdl{}\PYGZob{}ROOT\PYGZus{}DIR\PYGZcb{}:/jupyter
+        command:
+        [
+\PYG{c}{            \PYGZdq{}jupyter\PYGZdq{},}
+\PYG{c}{            \PYGZdq{}notebook\PYGZdq{},}
+\PYG{c}{            \PYGZdq{}\PYGZhy{}\PYGZhy{}ip=*\PYGZdq{},}
+\PYG{c}{            \PYGZdq{}\PYGZhy{}\PYGZhy{}port\PYGZsq{}\PYGZdl{}\PYGZob{}JUPYTER\PYGZus{}PORT\PYGZcb{}\PYGZdq{},}
+\PYG{c}{            \PYGZdq{}\PYGZhy{}\PYGZhy{}allow\PYGZhy{}root\PYGZdq{},}
+\PYG{c}{            \PYGZdq{}\PYGZhy{}\PYGZhy{}notebook\PYGZhy{}dir=\PYGZdl{}\PYGZob{}JUPYTER\PYGZus{}DIR\PYGZcb{}\PYGZdq{},}
+            \PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}\PYGZhy{}NotebookApp.token=\PYGZdl{}\PYGZob{}JUPYTER\PYGZus{}TOKEN\PYGZcb{}\PYGZsq{}}
+        ]
+\end{Verbatim}

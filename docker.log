@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.28)  11 JAN 2021 08:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.28)  12 JAN 2021 16:45
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -219,7 +219,11 @@ Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footers
 \f@nch@O@erf=\skip64
 \f@nch@O@olf=\skip65
 \f@nch@O@orf=\skip66
-) (/usr/local/texlive/2020/texmf-dist/tex/latex/titling/titling.sty
+)
+
+Package Fancyhdr Warning: \fancyfoot's `E' option without twoside option is useless on input line 36.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/titling/titling.sty
 Package: titling 2009/09/04 v2.1d maketitle typesetting
 \thanksmarkwidth=\skip67
 \thanksmargin=\skip68
@@ -492,31 +496,31 @@ File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 ) (/Users/seri/latex_articles/docker.aux)
 \openout1 = `docker.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
 \big@size=\dimen271
-LaTeX Info: Redefining \microtypecontext on input line 109.
+LaTeX Info: Redefining \microtypecontext on input line 107.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `basictext'.
-LaTeX Info: Redefining \showhyphens on input line 109.
+LaTeX Info: Redefining \showhyphens on input line 107.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -531,7 +535,7 @@ File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * hratio: 1:1
-* modes: twoside 
+* modes: 
 * h-part:(L,W,R)=(92.14519pt, 430.00462pt, 92.14519pt)
 * v-part:(T,H,B)=(91.04881pt, 608.5238pt, 95.39737pt)
 * \paperwidth=614.295pt
@@ -545,16 +549,16 @@ File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 * \headsep=25.0pt
 * \topskip=10.0pt
 * \footskip=30.0pt
-* \marginparwidth=48.0pt
-* \marginparsep=10.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
 * \columnsep=20.0pt
 * \skip\footins=9.0pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
-* \@twocolumntrue
-* \@twosidetrue
-* \@mparswitchtrue
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
@@ -564,7 +568,7 @@ Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box61
-Package hyperref Info: Link coloring OFF on input line 109.
+Package hyperref Info: Link coloring OFF on input line 107.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
  (/usr/local/texlive/2020/texmf-dist/tex/latex/refcount/refcount.sty
@@ -574,9 +578,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count329
 )
-LaTeX Info: Redefining \ref on input line 109.
-LaTeX Info: Redefining \pageref on input line 109.
-LaTeX Info: Redefining \nameref on input line 109.
+LaTeX Info: Redefining \ref on input line 107.
+LaTeX Info: Redefining \pageref on input line 107.
+LaTeX Info: Redefining \nameref on input line 107.
  (/Users/seri/latex_articles/docker.out) (/Users/seri/latex_articles/docker.out)
 \@outlinefile=\write5
 \openout5 = `docker.out'.
@@ -596,23 +600,23 @@ LaTeX Info: Redefining \nameref on input line 109.
 \makeMPintoPDFobject=\count336
 \everyMPtoPDFconversion=\toks29
 )
-LaTeX Font Info:    Trying to load font information for OT1+pplx on input line 113.
+LaTeX Font Info:    Trying to load font information for OT1+pplx on input line 111.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1pplx.fd
 File: ot1pplx.fd 2004/09/06 font definitions for OT1/pplx.
 )
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 113.
+LaTeX Font Info:    Trying to load font information for OML+zplm on input line 111.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 113.
+LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 111.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 113.
+LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 111.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 113.
+LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 111.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
@@ -623,13 +627,13 @@ Package microtype Info: Loading generic protrusion settings for font family
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/pplx/m/sc/12'.
 (microtype)             Ignoring protrusion settings for this character.
-LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 113.
+LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 111.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1pplx.fd
 File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
 )
 \openout3 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/default-pyg-prefix.pygstyle) (/Users/seri/latex_articles/_minted-docker/vim.pygstyle) (/Users/seri/latex_articles/_minted-docker/6CE9E6FDC55FA3C9C11EEE1376E3B90017EFA94DBC0623EC2893973703C8E410.pygtex
+ (/Users/seri/latex_articles/_minted-docker/default-pyg-prefix.pygstyle) (/Users/seri/latex_articles/_minted-docker/vim.pygstyle) (/Users/seri/latex_articles/_minted-docker/1EE666AEE4A034988E1140396E122AB1A4BF29D191E48B3A675A6F4DDA27BDCD.pygtex
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
@@ -641,110 +645,94 @@ Package microtype Info: Loading generic protrusion settings for font family
 )
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/4C63661D7E782F1BD6540A6EABDC8B5A17EFA94DBC0623EC2893973703C8E410.pygtex)
-\openout4 = `docker.pyg'.
-
- (/Users/seri/latex_articles/_minted-docker/A125720FE0F90E88943968107AEB238717EFA94DBC0623EC2893973703C8E410.pygtex)
-Underfull \hbox (badness 10000) in paragraph at lines 135--137
-[]\T1/pplx/m/n/10 (+20) The [] com-mand fetches the
- []
-
+ (/Users/seri/latex_articles/_minted-docker/F66220A3C2E6BAC751A9F2720C8B8FA50FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout3 = `docker.pyg'.
 
-(/Users/seri/latex_articles/_minted-docker/0BB6BBBA3A55CFC7CFA2C6CE9EA53A4917EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/6273331E6CBCC2F7B8DBCCD1BE325CAD17EFA94DBC0623EC2893973703C8E410.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/B0F24E3D11BFE3D31529D1B9F2745CFD17EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/F2669E6F1EB9E6E4E7CBAADF26759E4E0FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/F68AE32A99C8C9AF5A0F1C736D3FE93717EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/CE771BB33A2A445C8E616A88EC29C5170FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/B0F24E3D11BFE3D31529D1B9F2745CFD17EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/2076477E7AF5D886194760C28B13F80D0FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/A4E5FA056655344A7507576240B9992817EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/51CE00F9C0C13D64D946175DB285F4250FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/F4B524261FCE06C1FBD10B4681AD0B9717EFA94DBC0623EC2893973703C8E410.pygtex)
-\openout4 = `docker.pyg'.
+ (/Users/seri/latex_articles/_minted-docker/14967461514E51718D43871E62C4978A0FA5D93B2D488C0CFA4F89F966D2E11A.pygtex) [1
 
- (/Users/seri/latex_articles/_minted-docker/11EDF40C2F854B98F64E547E2610AD2317EFA94DBC0623EC2893973703C8E410.pygtex)
-\openout4 = `docker.pyg'.
-
- (/Users/seri/latex_articles/_minted-docker/4A20A1309318949C59BF0EC8734C103F17EFA94DBC0623EC2893973703C8E410.pygtex)
-\openout4 = `docker.pyg'.
-
- (/Users/seri/latex_articles/_minted-docker/193C8C0ABEF469816A2EE6B917E5519C17EFA94DBC0623EC2893973703C8E410.pygtex)
+{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 \openout3 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/E53FA40D97B2D9FCF5B36166CC8CF76917EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/0840A8F415ED8A60F51D8C4A2444D147A4BF29D191E48B3A675A6F4DDA27BDCD.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/7B5FE05B5D76FFC77D753EEBD97E955A17EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/79503BAD0208C5F986BA0EA25130798B0FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
+\openout3 = `docker.pyg'.
+
+ (/Users/seri/latex_articles/_minted-docker/139771CA5C61BE140D2755C3FA91B8770FA5D93B2D488C0CFA4F89F966D2E11A.pygtex [2]
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 40.
+ (/usr/local/texlive/2020/texmf-dist/tex/latex/base/ts1cmtt.fd
+File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/956BAF72FD20659D7045498CC3954BF217EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/7DD72CD9A8F5E9A3EC2A289C8740E1D20FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/395B372BD23B1381D115B78E9A23F47D17EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/7DD72CD9A8F5E9A3EC2A289C8740E1D20FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
+\openout3 = `docker.pyg'.
+
+ (/Users/seri/latex_articles/_minted-docker/4A373CA9B2D017DD4E113EA0C0FC0E360FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/8A907C93168698A97628C2297EA6DC1917EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/3AF504D9078A72B9AFDD513A5AFC0DEF0FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/11EDF40C2F854B98F64E547E2610AD2317EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/95D818287ED170A3F151F73AC5175D890FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/6715B1A0C30058672313F73A3C3B593517EFA94DBC0623EC2893973703C8E410.pygtex)
+ (/Users/seri/latex_articles/_minted-docker/482BE40CBF880102C2C1914DCCF7130D0FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
+\openout3 = `docker.pyg'.
+
+ (/Users/seri/latex_articles/_minted-docker/525ECC19B8D511F0DCC1EF7957629C610FA5D93B2D488C0CFA4F89F966D2E11A.pygtex [3])
 \openout4 = `docker.pyg'.
 
- (/Users/seri/latex_articles/_minted-docker/9A2E5BD36C78E070F7B1AF3629C151EE17EFA94DBC0623EC2893973703C8E410.pygtex)
-Underfull \hbox (badness 10000) in paragraph at lines 165--168
-[]\T1/pplx/m/n/10 (+20) In later ver-sions, the
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 165--168
-[] \T1/pplx/m/n/10 (+20) com-mand can
- []
-
-\openout4 = `docker.pyg'.
-
-(/Users/seri/latex_articles/_minted-docker/11EDF40C2F854B98F64E547E2610AD2317EFA94DBC0623EC2893973703C8E410.pygtex)
-\openout4 = `docker.pyg'.
-
- (/Users/seri/latex_articles/_minted-docker/F68AE32A99C8C9AF5A0F1C736D3FE93717EFA94DBC0623EC2893973703C8E410.pygtex) [1{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-
-]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 180.
- [2
-
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 180.
+ (/Users/seri/latex_articles/_minted-docker/9BB3AE2CEF7E54CCB0BF57CB00D781970FA5D93B2D488C0CFA4F89F966D2E11A.pygtex)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 251.
+ [4]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 251.
  (/Users/seri/latex_articles/docker.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 180.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 180.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 251.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 251.
 Package rerunfilecheck Info: File `docker.out' has not changed.
-(rerunfilecheck)             Checksum: 6C775CC98E14ECB3AC1BAACC9E13363D;161.
+(rerunfilecheck)             Checksum: 6D06B5CC8D6DA3BA4A5C0DEE3B75CE55;152.
 runsystem(rm docker.pyg)...executed.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 180.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 251.
  ) 
 Here is how much of TeX's memory you used:
- 15643 strings out of 480608
- 264448 string characters out of 5903629
- 618202 words of memory out of 5000000
- 31062 multiletter control sequences out of 15000+600000
- 584684 words of font info for 174 fonts, out of 8000000 for 9000
+ 15634 strings out of 480608
+ 264186 string characters out of 5903629
+ 617172 words of memory out of 5000000
+ 31071 multiletter control sequences out of 15000+600000
+ 578204 words of font info for 158 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,14n,45p,984b,484s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on /Users/seri/latex_articles/docker.pdf (2 pages, 93511 bytes).
+ 44i,14n,45p,984b,624s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb>
+Output written on /Users/seri/latex_articles/docker.pdf (4 pages, 105672 bytes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 43 compressed objects within 1 object stream
- 6 named destinations out of 1000 (max. 500000)
- 45593 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 66 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
+ 8 named destinations out of 1000 (max. 500000)
+ 44569 words of extra memory for PDF output out of 51595 (max. 10000000)
 

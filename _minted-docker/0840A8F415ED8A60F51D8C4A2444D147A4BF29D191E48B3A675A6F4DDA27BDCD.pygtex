@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZsh{} NVIDIA CUDA image as a base
+\PYGZsh{} We also mark this image as \PYGZdq{}jupyter\PYGZhy{}base\PYGZdq{}
+FROM nvidia/cuda:10.2\PYGZhy{}runtime AS jupyter\PYGZhy{}base
+
+WORKDIR /
+
+\PYGZsh{} install python and its tools
+RUN apt update \PYGZam{}\PYGZam{} apt install \PYGZhy{}y \PYGZhy{}\PYGZhy{}no\PYGZhy{}install\PYGZhy{}recommends \PYGZbs{}
+    git \PYGZbs{}
+    build\PYGZhy{}essential \PYGZbs{}
+    python3\PYGZhy{}dev \PYGZbs{}
+    python3\PYGZhy{}pip \PYGZbs{}
+    python3\PYGZhy{}setuptools
+RUN pip3 \PYGZhy{}q intall pip \PYGZhy{}\PYGZhy{}upgrade
+
+\PYGZsh{} install all the basic packages
+RUN pip3 install \PYGZbs{}
+    jupyter \PYGZbs{}
+    numpy pandas \PYGZbs{}
+    torch torchvision \PYGZbs{}
+    tensorboardX
+\end{Verbatim}

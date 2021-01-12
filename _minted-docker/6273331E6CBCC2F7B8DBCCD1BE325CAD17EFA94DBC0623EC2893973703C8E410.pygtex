@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{g+go}{docker build \PYGZhy{}t dl\PYGZhy{}tensorboard:latest \PYGZhy{}f tensorboard.Dockerfile .}
+\PYG{g+go}{docker run \PYGZhy{}\PYGZhy{}rm \PYGZhy{}it dl\PYGZhy{}tensorboard:latest /bin/bash}
+\end{Verbatim}

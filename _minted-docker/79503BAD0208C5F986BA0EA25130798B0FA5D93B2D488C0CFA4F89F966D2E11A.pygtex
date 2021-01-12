@@ -1,3 +1,3 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PYG{g+go}{docker rmi}
+docker\PYG{p}{\PYGZhy{}}compose.yml
 \end{Verbatim}

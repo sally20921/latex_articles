@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{g+go}{docker rm \PYGZdl{}(docker ps \PYGZhy{}a \PYGZhy{}q \PYGZhy{}f status=exited)}
-\end{Verbatim}

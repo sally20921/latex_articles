@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+.env
+docker\PYG{p}{\PYGZhy{}}compose.yml
+jupyter.Dockerfile
+tensorboard.Dockerfile
+\end{Verbatim}

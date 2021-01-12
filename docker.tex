@@ -1,6 +1,4 @@
-
-
-\documentclass[twoside,twocolumn]{article}
+\documentclass{article}
 
 \usepackage{blindtext} % Package to generate dummy text throughout this template 
 
@@ -88,7 +86,7 @@
 \posttitle{\end{center}} % Article title closing formatting
 
 
-\title{Docker Containers Tutorial} % Article title
+\title{Deep Learning Projects with Docker Containers} % Article title
 
 
 \author{%
@@ -114,67 +112,140 @@
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
+\section{Why Containers?}
+Containers are lightweight software packages that run in isolation on the host computing environment.
+Using containerized environments for research is helpful because they are easy to use, reproducible, and keep primary system clean.
+You can easily set up a full functioning multi-container application using Docker Compose.
+They also allow you to set up ready-to-go Jupyter notebooks with Tensorboard tacking with one command.
+In this post, I will describe how to set up and deploy containers for deep learning in your system, and how to extend basic images for a specific task.
 
-Containers are a packetized bundle of software that encapsulates everything that is required to run, including all dependencies.
-It only requires a compatible OS kernel to run autonomously.
+\section{Starting with Containers}
+We will now create two containers-one for Jupyter Notebook and another for Tensorboard.
+We start with the Tensorboard container because it is very small and easy to understand.
+Here is the full Dockerfile for it:
+\begin{minted}[breaklines]{text}
+FROM python:3.8-slim-buster
+RUN pip3 install tensorboard
+\end{minted}
+You can save this file as \mintinline[breaklines]{vim}{tensorboard.Dockerfile}, build the container 
+and run it interatively.
+\begin{minted}[breaklines]{shell-session}
+docker build -t dl-tensorboard:latest -f tensorboard.Dockerfile .
+docker run --rm -it dl-tensorboard:latest /bin/bash
+\end{minted}
+and the \mintinline{vim}{tensorboard} will be available to run.
+But it will not run on its own, it needs a directory where the data is stored.
 
-Docker is the lead actor in containers for web applications.
-The best way to describe a container is to think of a process that's surrounded by its own filesystem.
-This makes containers extremely portable, as they are detached from the underlying hardware and the platform that runs them.
+The next part is building an image with the Jupyter Notebook. First of all, we need a GPU support in our containers.
+Luckily, NVIDIA got us covered with their `Container Toolkit'. Another very useful project from NVIDIA is a set of pre-built images with CUDA installed.
+With these images, you don't need to do a thing related to CUDA setup.
+NIVDIA provides three flavors of their images-\mintinline{vim}{base}, \mintinline{vim}{runtime}, and \mintinline{vim}{devel}.
+Our option is runtime because it includes cuDNN.
 
-\section{Docker Run}
-To build a container with Docker, we need a definition of its content.
-The filesystem is created by applying layer after layer.
+The next interesting point is that we are going to perform a multi-stage build of our image. 
+We will have a base image that encapsulates all the logic related to setting things up, and the final image that adds finishing touches depending on the task in hand.
+This logic will allow us to have a base image resting in the Docker cache so there will be no need to download PyTorch everytime when we add a new package.
 
-In this section, we are going to run a ```SimCLR'' container on our system.
-To get started, run the following in the terminal:
-\begin{minted}[linenos]{shell-session}
-    docker pull zimmerrol/simclr-pt
+Since we use NVIDIA CUDA image as a base, we will need to install Python and some required tools.
+Also, due to the known issue, it is not possible to run a Notebook binary in the container as-is. We need to add the \mintinline{vim}{--init} flag when running the container.
+
+Finally, we can have a look at the actual Dockerfile for the Jupyter Notebook image:
+\begin{minted}[breaklines]{text}
+# NVIDIA CUDA image as a base
+# We also mark this image as "jupyter-base"
+FROM nvidia/cuda:10.2-runtime AS jupyter-base
+
+WORKDIR /
+
+# install python and its tools
+RUN apt update && apt install -y --no-install-recommends \
+    git \
+    build-essential \
+    python3-dev \
+    python3-pip \ 
+    python3-setuptools
+RUN pip3 -q intall pip --upgrade
+
+# install all the basic packages
+RUN pip3 install \ 
+    jupyter \ 
+    numpy pandas \
+    torch torchvision \ 
+    tensorboardX
 \end{minted}
 
-The \mintinline{shell-session}{pull} command fetches the zimmerrol/simclr-pt image from the Docker registry and saves it to our system.
-You can use the \mintinline{shell-session}{docker images} commnad to see a list of all images on your system.
+\section{Services}
+The final step of creating the environment is combining both images into a complete multi-container application with the help of Docker Compose.
+This tool allows to create a YAML file that contains a description of services that form the application.
+Ther is a workaround that enables usage of GPUs in Compose services.
+Let's look into the \mintinline{vim}{docker-compose.yml} file:
+\begin{minted}[breaklines]{vim}
+version: "3.8"
+services:
+    tensorboard:
+        image: dl-tensorboard
+        build:
+            context: ./
+            dockerfile: tensorboard.Dockerfile
+        ports:
+            - ${TENSORBOARD_PORT}:${TENSORBOARD_PORT}
+        volumes:
+            - ${ROOT_DIR}:/jupyter
+        command:
+            [
+                "tensorboard",
+                "--logdir=${TENSORBOARD_DIR}",
+                "--port=${TENSORBOARD_PORT",
+                "--bind-all"
+            ]
 
-Let's run a Docker container based on this image.
-\begin{minted}[linenos]{shell-session}
-docker run zimmerrol/simclr-pt
+    jupyter-server:
+        image: dl-jupyter
+        init: true
+        build:
+            context: ./
+            dockerfile: jupyter.Dockerfile
+        device_requests:
+            - capabilities:
+                - "gpu"
+        env_file:./.env
+        ports:
+            - ${JUPYTER_PORT}:${JUPYTER_PORT}
+        volumes:
+            -${ROOT_DIR}:/jupyter
+        command:
+        [
+            "jupyter",
+            "notebook",
+            "--ip=*",
+            "--port'${JUPYTER_PORT}",
+            "--allow-root",
+            "--notebook-dir=${JUPYTER_DIR}",
+            '--NotebookApp.token=${JUPYTER_TOKEN}'
+        ]
 \end{minted}
-
-When you call \mintinline{shell-session}{run}. the Docker client finds the image, loads up the container and then runs a command in that container.
-We didn't provide a command, so the container booted up, ran an empty command and then exited.
-
-The \mintinline{shell-session}{docker ps} command shows you all containers you are cuurently running.
-
-Running the \mintinline{shell-session}{run} command with the \mintinline{shell-session}{-it} flag attaches us to an interative tty in the container.
-Now we can run as many commands in the container as we want.
-You can exit the container (\mintinline{shell-session}{exit} and press Enter). Since Docker creates a new container every time, everything should start working again.
-
-Running \mintinline{shell-session}{docker run} multiple times and leaving stray containers will eat up disk space.
-Hence, as a rule of thumb, clean up containers once you are done with them.
-To do that, run \mintinline{shell-session}{docker rm} command. Just copy the container IDs from \mintinline{shell-session}{docker ps -a} and paste them alongside the command.
-
-\begin{minted}[linenos]{shell-session}
-docker rm $(docker ps -a -q -f status=exited)
+We specify what ports from teh host machine will be exposed to the container.
+Docker compose takes these variables from a special file name \mintinline{vim}{.env} wher the userlists all variables that have to be used during compose.
+This allows you to have a single place where you store all parts of the compose script that can differ from environment to environment.
+The \mintinline{vim}{.env} file looks like this:
+\begin{minted}[breaklines]{vim}
+ROOT_DIR=/path/to/application/root/directory/host
+JUPYTER_PORT=42065
+JUPYTER_TOKEN=somepassword
+JUPYTER_DIR=/jupyter/notebooks/container
+TENSORBOARD_PORT=45175
+TENSORBOARD_DIR=/jupyter/runs/container
 \end{minted}
+This \mintinline{vim}{ROOT_DIR} is mounted to both containers as \mintinline{vim}{/jupyter}.
 
-This command deletes all containers that have a status of \mintinline{shell-session}{exited}.
-The \mintinline{shell-session}{-q} flag only returns the numeric IDs and \mintinline{shell-session}{-f} filters output based on conditions provided.
-
-\mintinline{shell-session}{--rm} flag can be passed to \mintinline{shell-session}{docker run} which automatically deletes the container once it's exited from.
-
-In later versions, the \mintinline{shell-session}{docker container prune} command can be used to achieve the same effect.
-Lastly, you can also delete images that you no longer need by running \mintinline{shell-session}{docker rmi}.
-%----------------------------------------------------------------------------------------
-
-\subsection{Terminology}
-\begin{itemize}
-    \item \textbf{Images} The blueprints of our applications which form the basis of containers.
-    \item \textbf{Containers} Created from Docker images and run the actual application. We create a container using \mintinline{shell-session}{docker run}. A list of running containers can be seen using the \mintinline{shell-session}{docker ps} command.
-    \item \textbf{Docker Daemon} The background service running on the host that manages building, running and distributing Docker containers. The daemon is the process that runs in the operating system which client talks to.
-    \item \textbf{Docker Client} The Command line tool that allows the users to interact with the daemon. 
-    \item \textbf{Docker Hub} A registry of Docker images. 
-\end{itemize}
-
-\section{Deploying with Docker}
+The \mintinline{vim}{command} section of the service definition contains a set of arguments that combined form a command that will be executed on the container start-up.
+In the end, we get the following structure of the working directory:
+\begin{minted}[breaklines]{vim}
+.env
+docker-compose.yml
+jupyter.Dockerfile
+tensorboard.Dockerfile
+\end{minted}
+With all set and done, you can finally run \mintinline[breaklines]{vim}{docker-compose up -d} inside our working directory.
 
 \end{document}

@@ -1,0 +1,479 @@
+
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template 
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Article by Seri $\bullet$ January 2021 $\bullet$ Vol. XXI, No. 1} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codepurple},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{magenta},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usemintedstyle{vim}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+
+
+\title{Docker Containers Tutorial 101} % Article title
+
+
+\author{%
+\textsc{Seri Lee}\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize Seoul National University \\ % Your institution
+\normalsize \href{mailto:sally20921@snu.ac.kr}{sally20921@snu.ac.kr} % Your email address
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+
+%\begin{abstract}
+%\noindent \blindtext % Dummy abstract text - replace \blindtext with your abstract text
+%\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+Containers are a packetized bundle of software that encapsulates everything that is required to run, including all dependencies.
+It only requires a compatible OS kernel to run autonomously.
+
+Docker is the lead actor in containers for web applications.
+The best way to describe a container is to think of a process that's surrounded by its own filesystem.
+This makes containers extremely portable, as they are detached from the underlying hardware and the platform that runs them.
+
+\section{Docker Run}
+To build a container with Docker, we need a definition of its content.
+The filesystem is created by applying layer after layer.
+
+In this section, we are going to run a ```SimCLR'' container on our system.
+To get started, run the following in the terminal:
+\begin{minted}[linenos, breaklines]{shell-session}
+    docker pull zimmerrol/simclr-pt
+\end{minted}
+
+The \mintinline{shell-session}{pull} command fetches the zimmerrol/simclr-pt image from the Docker registry and saves it to our system.
+You can use the \mintinline{shell-session}{docker images} commnad to see a list of all images on your system.
+
+Let's run a Docker container based on this image.
+\begin{minted}[linenos, breaklines]{shell-session}
+docker run zimmerrol/simclr-pt
+\end{minted}
+
+When you call \mintinline{shell-session}{run}. the Docker client finds the image, loads up the container and then runs a command in that container.
+We didn't provide a command, so the container booted up, ran an empty command and then exited.
+
+The \mintinline{shell-session}{docker ps} command shows you all containers you are cuurently running.
+
+Running the \mintinline{shell-session}{run} command with the \mintinline{shell-session}{-it} flag attaches us to an interative tty in the container.
+Now we can run as many commands in the container as we want.
+You can exit the container (\mintinline{shell-session}{exit} and press Enter). Since Docker creates a new container every time, everything should start working again.
+
+Running \mintinline{shell-session}{docker run} multiple times and leaving stray containers will eat up disk space.
+Hence, as a rule of thumb, clean up containers once you are done with them.
+To do that, run \mintinline{shell-session}{docker rm} command. Just copy the container IDs from \mintinline{shell-session}{docker ps -a} and paste them alongside the command.
+
+\begin{minted}[linenos, breaklines]{shell-session}
+docker rm $(docker ps -a -q -f status=exited)
+\end{minted}
+
+This command deletes all containers that have a status of \mintinline{shell-session}{exited}.
+The \mintinline{shell-session}{-q} flag only returns the numeric IDs and \mintinline{shell-session}{-f} filters output based on conditions provided.
+
+\mintinline{shell-session}{--rm} flag can be passed to \mintinline{shell-session}{docker run} which automatically deletes the container once it's exited from.
+
+In later versions, the \mintinline{shell-session}{docker container prune} command can be used to achieve the same effect.
+Lastly, you can also delete images that you no longer need by running \mintinline{shell-session}{docker rmi}.
+%----------------------------------------------------------------------------------------
+
+\subsection{Terminology}
+\begin{itemize}
+    \item \textbf{Images} The blueprints of our applications which form the basis of containers.
+    \item \textbf{Containers} Created from Docker images and run the actual application. We create a container using \mintinline{shell-session}{docker run}. A list of running containers can be seen using the \mintinline{shell-session}{docker ps} command.
+    \item \textbf{Docker Daemon} The background service running on the host that manages building, running and distributing Docker containers. The daemon is the process that runs in the operating system which client talks to.
+    \item \textbf{Docker Client} The Command line tool that allows the users to interact with the daemon. 
+    \item \textbf{Docker Hub} A registry of Docker images. 
+\end{itemize}
+
+\section{Deploying with Docker}
+\subsection{Static Sites}
+We're going to look at how we can run a dead-simple static website. We're going to pull a Docker image from Docker Hub, run the container, and see how to run a webserver.
+
+The image we are going to use is a single-page website. We can download and run the image directly in one using \mintinline{shell-session}{docker run}.
+As noted above, the \mintinline{shell-session}{--rm} flag automatically removes the container when it exits.
+\begin{minted}[breaklines]{shell-session}
+docker run --rm prakhar1989/static-site
+\end{minted}
+
+Since the image doesn't exist locally, the client will first fetch the image from the registry and then run the image.
+If all goes well, you should see a \mintinline{shell-session}{Nginx is running...} message in your terminal. But what port is it running on? How do we access the container directly from our host machine?
+
+The client is not exposing any ports so we need to re-run the \mintinline{shell-session}{docker run} command to publish ports.
+We should also find a way so that our terminal is not attached to the running container.
+This way, we can happily close the terminal and keep the container running.
+This is called \textbf{detached} mode.
+
+\begin{minted}[breaklines]{shell-session}
+docker run -d -P --name static-site prakhar1989/static-site
+\end{minted}
+
+In the above command, \mintinline{shell-session}{-d} will detach our terminal, \mintinline{shell-session}{-P} will publish all exposed ports to random ports and finally \mintinline{shell-session}{--name} corresponds to a name we want to give.
+Now we can see the ports by running the \mintinline{shell-session}{docker port [Container]} command.
+You can open https://localhost:32769 in your browser.
+You can also specify a custom port to which the client will forward connections to the container.
+\begin{minted}[breaklines]{shell-session}
+docker run -p 8888:80 prakhar1989/static-site
+\end{minted}
+
+To stop a detached container, run \mintinline{shell-session}{docker stop} by giving the container ID.
+In this case, we can use the name \mintinline{shell-session}{static-site} we used to start the container.
+
+\section{Docker Images}
+Docker images are the basis of containers.
+To see the list of images that are available locally, use the \mintinline{shell-session}{docker images} command.
+The \mintinline{shell-session}{TAG} refers to a particular snapshot of the image and the \mintinline{shell-session}{IMAGE ID} is the corresponding unique identifier for that image.
+
+For simplicity, you can think of an image akin to a git repository-images can be commited with changes and have multiple versions.
+If you don't provide a specific version number, the client defaults to \mintinline{shell-session}{latest}. For example, you can pull a specific version of ubuntu image:
+\begin{minted}[breaklines]{shell-session}
+docker pull ubuntu:18.04
+\end{minted}
+To get a new Docker image you can either get it from a registry (such as the Docker Hub) or create your own.
+You can also search for images directly from the command line using \mintinline{shell-session}{docker search}.
+
+An important distinction to be aware when it comes to images is the difference between base and child images.
+\begin{itemize}
+    \item \textbf{Base images} are images that have no parent image, usually images with an OS like ubuntu, busybox, or debian.
+    \item \textbf{Child images} are images that build on base images and add additional functionality.
+\end{itemize}
+
+Then there are official and user images, which can be both base and child images.
+\begin{itemize}
+    \item \textbf{Official images} are images that are officially maintained and supported by the folks at Docker. These are typically one word long. The \mintinline{shell-session}{python, ubuntu, busybox} and \mintinline{shell-session}{hello-world} images are official images.
+    \item \textbf{User images} are images created and shared by users like you and me. They build on base images and add additional functionality. Typically, these are formatted as \mintinline{shell-session}{user/image-name}.
+\end{itemize}
+
+\subsection{Our First Image}
+Now that we have a better understanding of images, it's time to create our own.
+Our goal in this section will be to create an image that sandboxes a simple Flask application.
+\begin{minted}[breaklines]{shell-session}
+git clone [docker curriculum git repository]
+cd docker-curriculum/flask-app
+\end{minted}
+This should be cloned on the machine where you are running the docker commands and not inside a docker container.
+The next step is to create an image with this app. As mentioned aboce, all user images are based on a base image.
+Since our application is written in Python, the base image we're going to use will be Python3.
+
+\subsection{Dockerfile}
+A Dockerfile is a simple text file that contains a list of commands that the Docker client calls while creating an image.
+It's a simple way to automate the image creation process.
+The best part is that the commands you write in a Dockerfile are almost identical to their equivalent Linux commands.
+
+To start, create a new blank file in our favorite text-editor and save it in the same folder as the flask app by the name of \mintinline{shell-session}{Dockerfile}.
+\begin{minted}[breaklines]{shell-session}
+FROM python:3
+
+# set a directory for the app
+WORKDIR /usr/src/app 
+
+# copy all the files to the container
+COPY ..
+
+# install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# define the port number the container should expose
+EXPOSE 5000
+
+# run the command
+CMD ["python", "./app.py"]
+\end{minted}
+The primary purpose of \mintinline{shell-session}{CMD} is to tell the container which command it should run when it is started.
+
+The \mintinline{shell-session}{docker build} command is quite simple-it takes an optional tag name with \mintinline{shell-session}{-t} and a location of the directory containing the \mintinline{shell-session}{Dockerfile}.
+\begin{minted}[breaklines]{shell-session}
+docker build -t sally20921/catnip .
+\end{minted}
+If you don't have the \mintinline{shell-session}{python:3} image, the client will first pull the image and then create your image.
+If everything went well, your image should be ready! Run \mintinline{shell-session}{docker images} and see if your image shows.
+
+The last step in this section is to run the image and see if it actually works.
+\begin{minted}[breaklines]{shell-session}
+docker run -p 8888:5000 sally20921/catnip
+\end{minted}
+The command we just ran used port 5000 for the server inside the container and exposed this externally on port 8888. Head over to the URL with port 8888, where your app should be live.
+
+\section{Docker on AWS}
+In this section, we are going to see how we can deploy our awesome application to the cloud so that we can share it with our friends.
+We're going the use AWS Elastic Beanstalk to get our application up and running. We'll also see how easy it is to make our application scalable and manageable with Beanstalk!
+
+\subsection{Docker push}
+The first thing that we need to do before we deploy our app to AWS is to publish our image on a registry which can be accessed by AWS.
+\begin{minted}[breaklines]{shell-session}
+docker login
+\end{minted}
+To publish, just type the below command. It is important to have the format of \mintinline{shell-session}{yourusername/image_name} so that the client knowns where to publish.
+\begin{minted}[breaklines]{shell-session}
+docker push sally20921/catnip
+\end{minted}
+Once that is done, you can view your image on Docker Hub. 
+Now that your image is online, anyone who has docker installed can play with your app by typing just a single command.
+\begin{minted}[breaklines]{shell-session}
+docker run -p 8888:5000 sally20921/catnip
+\end{minted}
+
+\subsection{Beanstalk}
+AWS Elastic Beanstalk (EB) is a PaaS (Platform as a Service) offered by AWS. 
+As a developer, you just tell EB how to run your app and it takes care of the rest-including scaling, monitoring and even updates.
+Although EB has a very intuitive CLI, it does require some setup, and to keep things simple we'll use the web UI to launch our application.
+
+Here are the steps:
+\begin{itemize}
+    \item Login in to your AWS console.
+    \item Click on EB. 
+    \item Click on ``Create New Application'' in the top right.
+    \item Give your app a memorable name and provide an optional description.
+    \item In the New Environment screen, create a new environment and choose the Web Server Environment.
+    \item Fill in the environment information by choosing a domain.
+    \item Under the base configuartion, choose Docker from the predefined platform.
+    \item Now we need to upload our application code. We just need to tell EB about our container.
+\end{itemize}
+The \mintinline{shell-session}{Dockerrun.aws.json} file is basically an AWS specific file that tells EB details about our application and docker configuration.
+We provide the name of the image that EB should use along with a port that the container should open.
+
+\section{Multi-Container Environments}
+In this section, we are going to spend some time learning how to Dockerize applications which rely on different services to run.
+In particular, we are going to see how we can run and manage multi-container docker environments.
+Why multi-container you might ask? Well, one of the key points of Docker is the way it provides isolation. The idea of bundling a process with its dependencies in a sandbox (called containers) is what makes this so powerful.
+
+It is wise to keep containers for each of the services separate.
+Each tier is likely to have different resource needs and those needs might grow at different rates.
+By separating the tiers into different containers, we can compose each tier using the most appropriate instance type based on different resource needs.
+
+\begin{minted}[breaklines]{shell-session}
+git clone [your repository]
+cd SimCLR
+tree -L 2
+\end{minted}
+The \mintinline{shell-session}{app} folder contains the Python application, while the \mintinline{shell-session}{utils} folder has some utilities to load the data into Elasticsearch.
+The directory also contains some YAML files and a Dockerfile. 
+We can see that the application consists of a Flask backend server and an Elasticsearch service.
+A natural way to split this app would be to have two containers-one running the Flask process and another running the ES process.
+\begin{minted}[breaklines]{shell-session}
+docker search elasticsearch
+\end{minted}
+we can simply use \mintinline{shell-session}{docker run} and have a single-node ES container running locally within no time.
+\begin{minted}[breaklines]{shell-session}
+docker pull [elasticsearch image]
+docker run -d --name es -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" [elasticsearch image]
+\end{minted}
+Once the container is started, we can see the logs by running \mintinline{shell-session}{docker container logs} with the container nam to inspect the logs.
+
+Let's get our Flask container running, too. We need a Dockerfile. Since we need a custom build step, we'll start from the \mintinline{shell-session}{ubuntu} base image to build our Dockerfile from scratch.
+If you find that an existing image doesn't cater to your needs, feel free to start from another base image and tweak it yourself. For most of the images on Docker Hub, you should be albe to find the corresponding Dockerfile on Github.
+
+\begin{minted}[breaklines]{shell-session}
+FROM ubuntu:18.04
+
+MAINTAINER Seri Lee <sally20921@snu.ac.kr>
+
+# install system-wide deps fro python and node
+RUN apt-get -yqq update
+RUN apt-get -yqq install python3-pip python3-dev curl gnupg
+RUN curl -sL [nodes.js setup] | bash
+RUN apt-get install -yq nodejs
+
+# copy our application code
+ADD app /opt/flask-app
+WORKDIR /opt/flask-app
+
+# fetch app specific deps
+RUN npm install
+RUN npm run build
+RUN pip3 install -r requirement.txt
+
+# expose port 
+EXPOSE 5000
+
+# start app
+CMD ["python3", "./app.py"]
+\end{minted}
+The \mintinline{shell-session}{yqq} flag is used to suppress output and assumes ``Yes'' to all prompts.
+
+We then use the \mintinline{shell-session}{ADD} command to copy our application into a new volume in the container-\mintinline{shell-session}{/opt/flask-app}.
+This is where our code will reside. We also set this as our working directory, so taht the following commands will be run in the context of this location.
+
+Finally, we can go ahead and build the image and run the container.
+\begin{minted}[breaklines]{shell-session}
+docker build -t sally20921/SimCLR .
+docker run -P --rm sally20921/SimCLR 
+\end{minted}
+But how do we tell one container about the other container and get them to talk to each other?
+
+\subsection{Docker Network}
+When docker is installed, it creates three networks automatically.
+The bridge network is the network in which containers are run by default.
+\begin{minted}[breaklines]{shell-session}
+docker run -it --rm sally20921/SimCLR bash
+\end{minted}
+We start the container in the interactive mode with the \mintinline{shell-session}{bash} process. 
+Since the bridge network is shared by every containe by default, this method is not secure. How do we isolate our network?
+
+Docker allows us to define our own networks while keeping them isolated using the \mintinline{shell-session}{docker network} command.
+\begin{minted}[breaklines]{shell-session}
+docker network create simclr-net
+docker network ls
+\end{minted}
+The \mintinline{shell-session}{network create} command creates a new bridge network, which is what we need at the moment.
+Now that we have a network, we can launch our containers inside this network using the \mintinline{shell-session}{--net} flag.
+\begin{minted}[breaklines]{shell-session}
+docker container stop es
+docker container rm es
+docker run -d --name es --net simclr-net -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" [elasticsearch image]
+docker network inspect simclr-net
+\end{minted}
+Now let's inspect what happens when we launch in our \mintinline{shell-session}{simclr-net} network.
+\begin{minted}[breaklines]{shell-session}
+docker run -it --rm --net simclr-net sally20921/simclr-web bash
+\end{minted}
+On user-defined networks like simclr-net, containers can not only communicate by IP address, but can also resolve a container name to an IP address.
+This capability is called ``automatic service discovery''.
+Let's launch our Flask container for real now-
+\begin{minted}[breaklines]{shell-session}
+docker run -d --net simclr-net -p 5000:5000 --name simclr-web sally20921/simclr-web
+docker container ls
+\end{minted}
+You can collect these commands in one bash script.
+
+\begin{minted}[breaklines]{bash}
+#!/bin/bash
+
+# build the flask container
+docker build -t sally20921/simclr-web .
+
+# create the network
+docker network create simclr-net
+
+# start the ES container
+docker run -d --name es --net simclr-net -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" [elasticsearch image]
+
+# start the flask app container
+docker run -d --net simclr-net -p 5000:5000 --name simclr-web sally20921/simclr-web
+\end{minted}
+
+Now imagine you are distributing your app to a friend. You can get a whole app running with just one command.
+\begin{minted}[breaklines]{shell-session}
+git clone [your repository]
+cd SimCLR
+./setup-docker.sh
+\end{minted}
+
+\subsection{Docker COmpose}
+Ther are a bunch of other open-source tools which we play very nicely with Docker.
+In this section, we are goint to look at one of these tools, Docker Compose, and see how it can make dealing with multi-container apps easier.
+Compose is a tool that is used for defining and running multi-container Docker apps in an easy way.
+It provides a configuration file called \mintinline{shell-session}{docker-compose.yml} that can be used to bring up an application and the suite of services it depends on with just one command.
+
+Let me break down what the file means. At the parent level, we define the names of our services-\mintinline{shell-session}{es} and \mintinline{shell-session}{web}.
+The \mintinline{shell-session}{image} parameter is always required.
+
+\begin{minted}[breaklines]{shell-session}
+docker stop es simclr-web
+docker rm es simclr-web
+docker-compose up -d 
+docker-compose ps
+docker-compose down -v
+docker network rm simclr-net
+docker network ls 
+docker container ls 
+\end{minted}
+Unsurprisingly, we can see both the containers running successfully.
+
+\subsection{Development Workflow}
+Let's see how we can configure compose to make our lives easier during development.
+Is one supposed to keep creating Docker images for every change, then publish it and then run it to see if the changes work as expected?
+\begin{minted}[breaklines]{shell-session}
+docker-compose run web bash
+\end{minted}
+
+\end{document}
